@@ -29,7 +29,10 @@ public class Dish {
     @Column(name = "composition")
     private String composition;
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @Column(name = "price")
+    private float price;
+
+    @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
     @JoinTable(name = "dish_basket",
             joinColumns = @JoinColumn(name = "dish_id"),
@@ -39,12 +42,13 @@ public class Dish {
     public Dish() {
     }
 
-    public Dish(String name, String type, String fileName, String description, String composition) {
+    public Dish(String name, String type, String fileName, String description, String composition, float price) {
         this.name = name;
         this.type = type;
         this.fileName = fileName;
         this.description = description;
         this.composition = composition;
+        this.price = price;
     }
 
     public Dish(String name,
@@ -52,12 +56,14 @@ public class Dish {
                 String fileName,
                 String description,
                 String composition,
+                float price,
                 Collection<Basket> baskets) {
         this.name = name;
         this.type = type;
         this.fileName = fileName;
         this.description = description;
         this.composition = composition;
+        this.price=price;
         this.baskets = baskets;
     }
 
@@ -109,6 +115,14 @@ public class Dish {
         this.composition = composition;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public Collection<Basket> getBaskets() {
         return baskets;
     }
@@ -126,6 +140,7 @@ public class Dish {
                 ", fileName='" + fileName + '\'' +
                 ", description='" + description + '\'' +
                 ", composition='" + composition + '\'' +
+                ", price=" + price +
                 '}';
     }
 }

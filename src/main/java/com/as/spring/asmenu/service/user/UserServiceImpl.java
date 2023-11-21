@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
         // assign user details to the user object
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // give user default role of "employee"
+        // give user default role of "CLIENT"
         user.setRoles(Arrays.asList(roleRepository.findRoleByName("ROLE_CLIENT")));
         user.setEnabled(true);
         user.setBasket(new Basket(false, 0));

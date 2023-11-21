@@ -2,6 +2,7 @@ package com.as.spring.asmenu.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -69,6 +70,15 @@ public class Basket {
 
     public void setDishes(Collection<Dish> dishes) {
         this.dishes = dishes;
+    }
+
+    public void addDish(Dish dish){
+        if (this.dishes == null){
+            dishes = new ArrayList<>();
+        }
+        dishes.add(dish);
+        this.quantity+=1;
+
     }
 
     @Override

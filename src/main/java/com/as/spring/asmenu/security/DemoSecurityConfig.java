@@ -31,10 +31,11 @@ public class DemoSecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/").hasRole("CLIENT")
+                                .requestMatchers("/menu/**").hasRole("CLIENT")
                                 .requestMatchers("/leaders/**").hasRole("DELIVERY")
                                 .requestMatchers("/systems/**").hasRole("ADMIN")
                                 .requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
@@ -44,8 +45,11 @@ public class DemoSecurityConfig {
                                 .successHandler(customAuthenticationSuccessHandler)
                                 .permitAll()
                 )
-                .logout(logout -> logout.permitAll()
-                )
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/showMyLoginPage?logout")
+                                .permitAll())
                 .exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
                 );
