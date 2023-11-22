@@ -34,7 +34,7 @@ public class Dish {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
-    @JoinTable(name = "dish_basket",
+    @JoinTable(name = "basket_dish",
             joinColumns = @JoinColumn(name = "dish_id"),
             inverseJoinColumns = @JoinColumn(name = "basket_id"))
     private Collection<Basket> baskets;

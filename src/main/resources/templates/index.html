@@ -19,9 +19,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        h2 {
-            color: #007bff;
-        }
+
 
 
     </style>
@@ -75,10 +73,14 @@
 </nav>
 
 <div class="container mt-3">
-    <h2>Welcome to ASrestaurant!</h2>
-    <a th:if="${session.user}">
-
-    </a>
+    <div th:unless="${session.user}">
+        <h2>Welcome to ASrestaurant!</h2>
+        <p>Pleas, Log in/Register to see the menu and make orders!</p>
+    </div>
+    <div th:if="${session.user}">
+        <h2 th:text="'Glad to see you, ' + ${session.user.firstName}"></h2>
+        <p>Now you can make the order</p>
+    </div>
 </div>
 
 

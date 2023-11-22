@@ -16,12 +16,15 @@ public class Basket {
     @Column(name = "order_is_ready")
     private boolean orderIsReady;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "total_quantity")
+    private Integer quantity;
+
+    @Column(name = "total_price")
+    private float totalPrice;
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
-    @JoinTable(name = "dish_basket",
+    @JoinTable(name = "basket_dish",
             joinColumns = @JoinColumn(name = "basket_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id"))
     private Collection<Dish> dishes;
@@ -29,14 +32,16 @@ public class Basket {
     public Basket() {
     }
 
-    public Basket(boolean orderIsReady, int quantity) {
+    public Basket(boolean orderIsReady, Integer quantity, float totalPrice) {
         this.orderIsReady = orderIsReady;
         this.quantity = quantity;
+        this.totalPrice = totalPrice;
     }
 
-    public Basket(boolean orderIsReady, int quantity, Collection<Dish> dishes) {
+    public Basket(boolean orderIsReady, Integer quantity, float totalPrice, Collection<Dish> dishes) {
         this.orderIsReady = orderIsReady;
         this.quantity = quantity;
+        this.totalPrice=totalPrice;
         this.dishes = dishes;
     }
 
@@ -56,12 +61,20 @@ public class Basket {
         this.orderIsReady = orderIsReady;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public Collection<Dish> getDishes() {
@@ -77,8 +90,6 @@ public class Basket {
             dishes = new ArrayList<>();
         }
         dishes.add(dish);
-        this.quantity+=1;
-
     }
 
     @Override
@@ -87,6 +98,7 @@ public class Basket {
                 "id=" + id +
                 ", orderIsReady=" + orderIsReady +
                 ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 }
