@@ -1,9 +1,17 @@
 package com.as.spring.asmenu.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "basket_dish")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class BasketDish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +30,6 @@ public class BasketDish {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public BasketDish() {
-    }
 
     public BasketDish(Basket basket, Dish dish, Integer quantity) {
         this.basket = basket;
@@ -31,45 +37,4 @@ public class BasketDish {
         this.quantity = quantity;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Basket getBasket() {
-        return basket;
-    }
-
-    public void setBasket(Basket basket) {
-        this.basket = basket;
-    }
-
-    public Dish getDish() {
-        return dish;
-    }
-
-    public void setDish(Dish dish) {
-        this.dish = dish;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "BasketDish{" +
-                "id=" + id +
-                ", basket=" + basket +
-                ", dish=" + dish +
-                ", quantity=" + quantity +
-                '}';
-    }
 }

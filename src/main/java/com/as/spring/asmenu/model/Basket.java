@@ -1,13 +1,19 @@
 package com.as.spring.asmenu.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
 @Entity
 @Table(name = "basket")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +29,13 @@ public class Basket {
     @Column(name = "total_price")
     private Double totalPrice;
 
+
+    @ToString.Exclude
     @OneToMany(mappedBy = "basket", fetch = FetchType.EAGER,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
     private List<BasketDish> basketDishes;
 
-    public Basket() {
-    }
+
 
     public Basket(boolean orderIsReady, Integer quantity, Double totalPrice) {
         this.orderIsReady = orderIsReady;
@@ -43,53 +50,6 @@ public class Basket {
         this.basketDishes = basketDishes;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Long getId() {
-        return id;
-    }
 
-    public boolean isOrderIsReady() {
-        return orderIsReady;
-    }
-
-    public void setOrderIsReady(boolean orderIsReady) {
-        this.orderIsReady = orderIsReady;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public List<BasketDish> getBasketDishes() {
-        return basketDishes;
-    }
-
-    public void setBasketDishes(List<BasketDish> basketDishes) {
-        this.basketDishes = basketDishes;
-    }
-
-    @Override
-    public String toString() {
-        return "Basket{" +
-                "id=" + id +
-                ", orderIsReady=" + orderIsReady +
-                ", quantity=" + quantity +
-                ", totalPrice=" + totalPrice +
-                '}';
-    }
 }
