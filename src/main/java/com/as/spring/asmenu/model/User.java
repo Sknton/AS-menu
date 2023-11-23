@@ -6,8 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -51,7 +50,7 @@ public class User {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private List<Role> roles;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "basket_id")
@@ -75,7 +74,7 @@ public class User {
                 String firstName,
                 String lastName,
                 String email,
-                Collection<Role> roles,
+                List<Role> roles,
                 Basket basket,
                 boolean enabled) {
         this.username = username;
@@ -144,11 +143,11 @@ public class User {
         this.email = email;
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

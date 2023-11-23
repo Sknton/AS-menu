@@ -3,7 +3,7 @@ package com.as.spring.asmenu.model;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "dish")
@@ -30,19 +30,16 @@ public class Dish {
     private String composition;
 
     @Column(name = "price")
-    private float price;
+    private Double price;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
-    @JoinTable(name = "basket_dish",
-            joinColumns = @JoinColumn(name = "dish_id"),
-            inverseJoinColumns = @JoinColumn(name = "basket_id"))
-    private Collection<Basket> baskets;
+    private List<BasketDish> basketDishes;
 
     public Dish() {
     }
 
-    public Dish(String name, String type, String fileName, String description, String composition, float price) {
+    public Dish(String name, String type, String fileName, String description, String composition, Double price) {
         this.name = name;
         this.type = type;
         this.fileName = fileName;
@@ -56,15 +53,15 @@ public class Dish {
                 String fileName,
                 String description,
                 String composition,
-                float price,
-                Collection<Basket> baskets) {
+                Double price,
+                List<BasketDish> basketDishes) {
         this.name = name;
         this.type = type;
         this.fileName = fileName;
         this.description = description;
         this.composition = composition;
         this.price=price;
-        this.baskets = baskets;
+        this.basketDishes = basketDishes;
     }
 
     public void setId(Long id) {
@@ -115,20 +112,20 @@ public class Dish {
         this.composition = composition;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Collection<Basket> getBaskets() {
-        return baskets;
+    public List<BasketDish> getBasketDishes() {
+        return basketDishes;
     }
 
-    public void setBaskets(Collection<Basket> baskets) {
-        this.baskets = baskets;
+    public void setBasketDishes(List<BasketDish> basketDishes) {
+        this.basketDishes = basketDishes;
     }
 
     @Override

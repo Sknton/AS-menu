@@ -140,18 +140,15 @@
     </div>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-        <div th:each="dish : ${basket.dishes}" class="col mb-4">
+        <div th:each="basketDish : ${basket.basketDishes}" class="col mb-4">
             <div class="card shadow-sm p-3">
-                <img th:src="@{'/menu-pictures/' + ${dish.fileName}}" class="card-img-top img-fluid" alt="...">
+                <img th:src="@{'/menu-pictures/' + ${basketDish.dish.fileName}}" class="card-img-top img-fluid" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${dish.name}"></h5>
-                    <p class="card-text" th:text="${dish.description}"></p>
-                    <p class="card-text" th:text="${dish.composition}"></p>
-                    <div class="fw-medium" th:text="'Price: $' + ${dish.price}"></div>
-                    <div th:each="basketDish : ${basketDishes}"
-                         th:if="${basketDish.basketDishId.basketId == basket.id &&
-                        basketDish.basketDishId.dishId == dish.id}" class="fw-medium"
-                         th:text="'You have ' + ${basketDish.quantity}">
+                    <h5 class="card-title" th:text="${basketDish.dish.name}"></h5>
+                    <p class="card-text" th:text="${basketDish.dish.description}"></p>
+                    <p class="card-text" th:text="${basketDish.dish.composition}"></p>
+                    <div class="fw-medium" th:text="'Price: $' + ${basketDish.dish.price}"></div>
+                    <div class="fw-medium" th:text="'You have ' + ${basketDish.quantity}">
                     </div>
                 </div>
             </div>

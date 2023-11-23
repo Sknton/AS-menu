@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService{
         // give user default role of "CLIENT"
         user.setRoles(Arrays.asList(roleRepository.findRoleByName("ROLE_CLIENT")));
         user.setEnabled(true);
-        user.setBasket(new Basket(false, 0, 0));
+        user.setBasket(new Basket(false, 0, 0D));
 
         // save user in the database
         userRepository.save(user);

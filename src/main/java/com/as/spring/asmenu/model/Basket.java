@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "basket")
@@ -20,29 +21,26 @@ public class Basket {
     private Integer quantity;
 
     @Column(name = "total_price")
-    private float totalPrice;
+    private Double totalPrice;
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "basket", fetch = FetchType.EAGER,
             cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
-    @JoinTable(name = "basket_dish",
-            joinColumns = @JoinColumn(name = "basket_id"),
-            inverseJoinColumns = @JoinColumn(name = "dish_id"))
-    private Collection<Dish> dishes;
+    private List<BasketDish> basketDishes;
 
     public Basket() {
     }
 
-    public Basket(boolean orderIsReady, Integer quantity, float totalPrice) {
+    public Basket(boolean orderIsReady, Integer quantity, Double totalPrice) {
         this.orderIsReady = orderIsReady;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
 
-    public Basket(boolean orderIsReady, Integer quantity, float totalPrice, Collection<Dish> dishes) {
+    public Basket(boolean orderIsReady, Integer quantity, Double totalPrice, List<BasketDish> basketDishes) {
         this.orderIsReady = orderIsReady;
         this.quantity = quantity;
         this.totalPrice=totalPrice;
-        this.dishes = dishes;
+        this.basketDishes = basketDishes;
     }
 
     public void setId(Long id) {
@@ -69,27 +67,20 @@ public class Basket {
         this.quantity = quantity;
     }
 
-    public float getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public Collection<Dish> getDishes() {
-        return dishes;
+    public List<BasketDish> getBasketDishes() {
+        return basketDishes;
     }
 
-    public void setDishes(Collection<Dish> dishes) {
-        this.dishes = dishes;
-    }
-
-    public void addDish(Dish dish){
-        if (this.dishes == null){
-            dishes = new ArrayList<>();
-        }
-        dishes.add(dish);
+    public void setBasketDishes(List<BasketDish> basketDishes) {
+        this.basketDishes = basketDishes;
     }
 
     @Override
