@@ -1,4 +1,4 @@
-package com.as.spring.asmenu.dao;
+package com.as.spring.asmenu.repository;
 
 import com.as.spring.asmenu.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

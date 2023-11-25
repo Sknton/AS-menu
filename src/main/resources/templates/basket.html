@@ -17,116 +17,23 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .dish-container {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
             margin-bottom: 20px;
-            padding: 15px;
+            margin-top: 80px;
         }
 
-        .dish-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-
-        .dish-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .dish-type {
-            color: #6c757d;
-            margin-bottom: 10px;
-        }
-
-        .dish-description {
-            margin-bottom: 10px;
-        }
-
-        .dish-composition {
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-
-        .dish-price {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .add-to-basket-btn {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .add-to-basket-btn:hover {
-            background-color: #218838;
-        }
-
 
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand">ASrestaurant</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/menu">Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
-                </li>
+<div th:insert="~{common/navbar}"></div>
 
 
-            </ul>
-            <ul class="nav ms-auto me-5">
-                <li class="nav-item dropdown me-4">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false"
-                       th:if="${session.user}" th:text="'Hello, ' + ${session.user.username}">
-                        Dropdown link
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" th:if="${session.user}"
-                               th:href="@{'/basket/'+ ${session.user.basket.id}}">Basket</a>
-                        </li>
-                        <li>
-                            <form action="#" th:action="@{/logout}" th:if="${session.user}" method="POST">
-                                <input type="submit" value="Logout" class="dropdown-item"/>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:unless="${session.user}" href="/showMyLoginPage">Log-in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:unless="${session.user}"
-                       href="/register/showRegistrationForm">Registration</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <div class="container">
 
@@ -139,16 +46,36 @@
         <div class="text-primary" th:text="'Total price: $' + ${basket.totalPrice}"></div>
     </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
         <div th:each="basketDish : ${basket.basketDishes}" class="col mb-4">
             <div class="card shadow-sm p-3">
-                <img th:src="@{'/menu-pictures/' + ${basketDish.dish.fileName}}" class="card-img-top img-fluid" alt="...">
+                <img th:src="@{'/menu-pictures/' + ${basketDish.dish.fileName}}" class="card-img-top img-fluid"
+                     alt="...">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${basketDish.dish.name}"></h5>
                     <p class="card-text" th:text="${basketDish.dish.description}"></p>
                     <p class="card-text" th:text="${basketDish.dish.composition}"></p>
-                    <div class="fw-medium" th:text="'Price: $' + ${basketDish.dish.price}"></div>
-                    <div class="fw-medium" th:text="'You have ' + ${basketDish.quantity}">
+                    <div class="row">
+                        <div class="col">
+                            <div class="fw-medium mb-2 " th:text="'Price: $' + ${basketDish.dish.price}"></div>
+                            <div class="fw-medium" th:text="'You have ' + ${basketDish.quantity}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <form action="#" th:action="@{/basket/delete}" method="post">
+                                <label>
+                                    <input type="number"
+                                           name="quantity"
+                                           th:value="'1'"
+                                           min="1"
+                                           th:max="${basketDish.quantity}"
+                                           class="form-control mb-2">
+                                </label>
+                                <input type="hidden" name="dishId" th:value="${basketDish.dish.id}">
+                                <input type="hidden" name="basketId" th:value="${basket.id}">
+                                <input type="submit" value="Delete dish" class="btn btn-outline-danger mt-1"/>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

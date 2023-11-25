@@ -31,11 +31,13 @@ public class Basket {
 
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "basket", fetch = FetchType.EAGER,
-            cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "basket", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<BasketDish> basketDishes;
 
-
+    @OneToOne(mappedBy = "basket",
+            cascade = CascadeType.ALL)
+    private User user;
 
     public Basket(boolean orderIsReady, Integer quantity, Double totalPrice) {
         this.orderIsReady = orderIsReady;

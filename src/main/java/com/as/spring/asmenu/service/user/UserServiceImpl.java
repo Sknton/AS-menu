@@ -1,7 +1,7 @@
 package com.as.spring.asmenu.service.user;
 
-import com.as.spring.asmenu.dao.RoleRepository;
-import com.as.spring.asmenu.dao.UserRepository;
+import com.as.spring.asmenu.repository.RoleRepository;
+import com.as.spring.asmenu.repository.UserRepository;
 import com.as.spring.asmenu.model.Basket;
 import com.as.spring.asmenu.model.Role;
 import com.as.spring.asmenu.model.User;

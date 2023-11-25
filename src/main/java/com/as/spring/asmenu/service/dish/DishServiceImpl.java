@@ -1,6 +1,6 @@
 package com.as.spring.asmenu.service.dish;
 
-import com.as.spring.asmenu.dao.DishRepository;
+import com.as.spring.asmenu.repository.DishRepository;
 import com.as.spring.asmenu.model.Dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

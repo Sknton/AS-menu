@@ -41,8 +41,8 @@ public class Dish {
     private Double price;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER,
-            cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<BasketDish> basketDishes;
 
 

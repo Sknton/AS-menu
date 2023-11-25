@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface BasketService {
 
-    void addToBasket(Long dishId, Long basketId, Integer quantity);
+    void addToBasket(Long basketId, Long dishId, Integer quantity);
 
     Basket findById(Long id);
 
+    void deleteFromBasket(Long basketId, Long dishId, Integer quantity);
 }

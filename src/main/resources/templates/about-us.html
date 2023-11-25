@@ -30,13 +30,17 @@
 
 <div th:insert="~{common/navbar}"></div>
 
+
+
 <div class="container">
     <div th:unless="${session.user}">
-        <h2>Welcome to ASrestaurant!</h2>
+        <h2>About us</h2>
+        <p>We are the best restaurant in your city! Don't believe us? Make an order)</p>
         <p>Pleas, Log in/Register to see the menu and make orders!</p>
     </div>
     <div th:if="${session.user}">
-        <h2 th:text="'Glad to see you, ' + ${session.user.firstName}"></h2>
+        <h2>About us</h2>
+        <p>We are the best restaurant in your city! Don't believe us? Make an order)</p>
         <p>Now you can make the order</p>
     </div>
 </div>
