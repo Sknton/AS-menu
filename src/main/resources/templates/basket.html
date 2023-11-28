@@ -33,25 +33,16 @@
 
     <div th:if="${!(basket.quantity == 0)}" class="text-center">
         <p class="fs-5 text-body-secondary">
-            Check if your order is correct and fill the form to finish the order
+            Check if your order is correct and enter address for delivery to complete the order
         </p>
         <form id="orderForm" action="#" th:action="@{/orders}" th:object="${order}" method="post" class="container">
             <div class="row justify-content-center">
                 <div class="col-4">
                     <input type="hidden" name="userId" th:value="${basket.user.id}">
-                    <div class="form-outline mb-4">
-                        <input type="text" th:field="*{city}" placeholder="city" class="form-control form-control-lg">
-                    </div>
-                    <div th:if="${#fields.hasErrors('city')}"
-                         style="margin-bottom: 25px" class="text-danger">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('city')}" th:text="'City ' + ${err}" />
-                        </ul>
-                    </div>
 
 
                     <div class="form-outline mb-4">
-                        <input type="text" th:field="*{address}" placeholder="address" class="form-control form-control-lg">
+                        <input type="text" id="address" th:field="*{address}" placeholder="address" class="form-control form-control-lg">
                     </div>
                     <div th:if="${#fields.hasErrors('address')}"
                          style="margin-bottom: 25px" class="text-danger">
@@ -63,6 +54,7 @@
                 </div>
             </div>
         </form>
+
 
     </div>
 

@@ -46,6 +46,7 @@ public class BasketController {
 
         model.addAttribute("httpServletRequest", request);
         model.addAttribute("basket", basket);
+        model.addAttribute("apiKey", googleApiKey);
         model.addAttribute("order", new Order());
         return "basket";
     }
@@ -64,6 +65,13 @@ public class BasketController {
         Basket basket = basketService.findById(basketId);
         basketService.save(basket);
         return "redirect:/basket/" + basketId;
+    }
+
+
+    @GetMapping("/exam")
+    public String exam(Model model){
+        model.addAttribute("API_KEY", googleApiKey);
+        return "/example/place";
     }
 }
 

@@ -8,6 +8,7 @@ import com.as.spring.asmenu.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,9 @@ public class OrderController {
 
     private final UserService userService;
 
+    @Value("${google.api.key}")
+    private String googleApiKey;
+
 
     @PostMapping
     public String makeOrder(@Valid @ModelAttribute("order")Order order,
@@ -40,6 +44,7 @@ public class OrderController {
         if (theBindingResult.hasErrors()){
             model.addAttribute("httpServletRequest", request);
             model.addAttribute("basket", user.getBasket());
+            model.addAttribute("apiKey", googleApiKey);
             return "basket";
         }
         orderService.save(order);

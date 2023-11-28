@@ -23,10 +23,6 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @NotNull(message = "is required")
-    @Size(min = 3, message = "is required")
-    @Column(name = "city")
-    private String city;
 
     @NotNull(message = "is required")
     @Size(min = 10, message = "is required")
@@ -43,19 +39,16 @@ public class Order {
             cascade = CascadeType.ALL)
     private List<OrderDish> orderDishes;
 
-    public Order(String city, String address) {
-        this.city = city;
+    public Order(String address) {
         this.address = address;
     }
 
-    public Order(String city, String address, User user) {
-        this.city = city;
+    public Order(String address, User user) {
         this.address = address;
         this.user = user;
     }
 
-    public Order(String city, String address, User user, List<OrderDish> orderDishes) {
-        this.city = city;
+    public Order(String address, User user, List<OrderDish> orderDishes) {
         this.address = address;
         this.user = user;
         this.orderDishes=orderDishes;
