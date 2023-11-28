@@ -4,6 +4,7 @@ import com.as.spring.asmenu.model.User;
 import com.as.spring.asmenu.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -16,16 +17,12 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/register")
+@RequiredArgsConstructor
 public class RegistrationController {
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
-    private UserService userService;
-
-    @Autowired
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {

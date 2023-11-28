@@ -1,32 +1,40 @@
 package com.as.spring.asmenu.service.basket;
 
-import com.as.spring.asmenu.repository.BasketRepository;
-import com.as.spring.asmenu.repository.BasketDishRepository;
-import com.as.spring.asmenu.repository.DishRepository;
 import com.as.spring.asmenu.model.Basket;
 import com.as.spring.asmenu.model.BasketDish;
 import com.as.spring.asmenu.model.Dish;
+import com.as.spring.asmenu.repository.BasketDishRepository;
+import com.as.spring.asmenu.repository.BasketRepository;
+import com.as.spring.asmenu.repository.DishRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class BasketServiceImpl implements BasketService{
-    private BasketRepository basketRepository;
-    private DishRepository dishRepository;
 
-    private BasketDishRepository basketDishRepository;
+    private final BasketRepository basketRepository;
+    private final DishRepository dishRepository;
+    private final BasketDishRepository basketDishRepository;
 
-    @Autowired
-    public BasketServiceImpl(BasketRepository basketRepository, DishRepository dishRepository, BasketDishRepository basketDishRepository){
-        this.basketRepository=basketRepository;
-        this.dishRepository=dishRepository;
-        this.basketDishRepository = basketDishRepository;
+
+
+    @Override
+    public void save(Basket basket) {
+        basketRepository.save(basket);
+    }
+
+
+    @Override
+    public Basket findById(Long id) {
+        return basketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No such Basket with id " + id));
     }
 
     @Override
+    @Transactional
     public void addToBasket(Long basketId, Long dishId, Integer quantity) {
 
         Basket basket = basketRepository.findById(basketId)
@@ -57,17 +65,7 @@ public class BasketServiceImpl implements BasketService{
 
 
     @Override
-    public Basket findById(Long id) {
-        Optional<Basket> basket = basketRepository.findById(id);
-
-        if (basket.isPresent()){
-            return basket.get();
-        }else {
-            throw new RuntimeException("No such Basket with id " + id);
-        }
-    }
-
-    @Override
+    @Transactional
     public void deleteFromBasket(Long basketId, Long dishId, Integer quantity) {
         Basket basket = basketRepository.findById(basketId)
                 .orElseThrow(() -> new EntityNotFoundException("Basket not found with id: " + basketId));

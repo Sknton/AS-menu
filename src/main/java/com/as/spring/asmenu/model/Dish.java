@@ -45,6 +45,11 @@ public class Dish {
             cascade = CascadeType.ALL)
     private List<BasketDish> basketDishes;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<OrderDish> orderDishes;
+
 
     public Dish(String name, String type, String fileName, String description, String composition, Double price) {
         this.name = name;
@@ -61,7 +66,8 @@ public class Dish {
                 String description,
                 String composition,
                 Double price,
-                List<BasketDish> basketDishes) {
+                List<BasketDish> basketDishes,
+                List<OrderDish> orderDishes) {
         this.name = name;
         this.type = type;
         this.fileName = fileName;
@@ -69,6 +75,7 @@ public class Dish {
         this.composition = composition;
         this.price=price;
         this.basketDishes = basketDishes;
+        this.orderDishes = orderDishes;
     }
 
 }

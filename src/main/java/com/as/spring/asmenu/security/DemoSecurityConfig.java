@@ -4,8 +4,6 @@ import com.as.spring.asmenu.service.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,10 +31,10 @@ public class DemoSecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/menu/**").hasRole("CLIENT")
+                                .requestMatchers("/", "/register/**", "/about-us/**", "/login-picture/**").permitAll()
+                                .requestMatchers("/menu/**", "/basket/**").hasRole("CLIENT")
                                 .requestMatchers("/leaders/**").hasRole("DELIVERY")
                                 .requestMatchers("/systems/**").hasRole("ADMIN")
-                                .requestMatchers("/", "/register/**", "/about-us/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
@@ -50,7 +48,8 @@ public class DemoSecurityConfig {
                         logout
                                 .logoutUrl("/logout")
                                 .logoutSuccessUrl("/showMyLoginPage?logout")
-                                .permitAll())
+                                .permitAll()
+                )
                 .exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
                 );

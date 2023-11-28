@@ -2,22 +2,18 @@ package com.as.spring.asmenu.controller;
 
 import com.as.spring.asmenu.service.dish.DishService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class MenuController {
-    private DishService dishService;
+    private final DishService dishService;
 
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
-    @Autowired
-    public MenuController(DishService dishService, HttpServletRequest request){
-        this.dishService= dishService;
-        this.request = request;
-    }
 
     @GetMapping("/menu")
     public String getMenu(Model model){

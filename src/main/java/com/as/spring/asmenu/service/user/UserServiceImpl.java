@@ -5,6 +5,8 @@ import com.as.spring.asmenu.repository.UserRepository;
 import com.as.spring.asmenu.model.Basket;
 import com.as.spring.asmenu.model.Role;
 import com.as.spring.asmenu.model.User;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,20 +19,15 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public User findByUserName(String userName) {
@@ -47,7 +44,7 @@ public class UserServiceImpl implements UserService{
         // give user default role of "CLIENT"
         user.setRoles(Arrays.asList(roleRepository.findRoleByName("ROLE_CLIENT")));
         user.setEnabled(true);
-        user.setBasket(new Basket(false, 0, 0D));
+        user.setBasket(new Basket(0, 0D));
 
         // save user in the database
         userRepository.save(user);
@@ -75,5 +72,11 @@ public class UserServiceImpl implements UserService{
         }
 
         return authorities;
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 }

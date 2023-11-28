@@ -1,6 +1,16 @@
 <nav class="navbar navbar-dark bg-dark fixed-top" xmlns:th="http://www.thymeleaf.org">
     <div class="container-fluid">
         <a class="navbar-brand">ASrestaurant</a>
+        <ul class="navbar-nav justify-content-start text-end flex-grow-1 pe-3" th:if="${session.user}">
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${httpServletRequest.requestURI == ('/basket/' + session.user.basket.id) ? ' active' : ''}"
+                   th:href="@{'/basket/'+ ${session.user.basket.id}}">
+                    Basket
+                    <i class="fa fa-shopping-basket" style=""></i>
+                </a>
+            </li>
+        </ul>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
                 aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -19,7 +29,7 @@
                            th:classappend="${httpServletRequest.requestURI == '/' ? ' active' : ''}"
                            href="/">Home</a>
                     </li>
-                    <li class="nav-item" >
+                    <li class="nav-item" th:if="${session.user}">
                         <a class="nav-link"
                            th:classappend="${httpServletRequest.requestURI == '/menu' ? ' active' : ''}"
                            href="/menu">Menu</a>
@@ -29,29 +39,33 @@
                            th:classappend="${httpServletRequest.requestURI == '/about-us' ? ' active' : ''}"
                            href="/about-us">About Us</a>
                     </li>
-                    <li class="nav-item dropdown me-4">
+                    <li class="nav-item" th:if="${session.user}">
+                        <a class="nav-link"
+                           th:classappend="${httpServletRequest.requestURI == ('/basket/' + session.user.basket.id) ? ' active' : ''}"
+                           th:href="@{'/basket/'+ ${session.user.basket.id}}">
+                            Basket
+                            <i class="fa fa-shopping-basket" style=""></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown me-4" th:if="${session.user}">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false"
-                           th:if="${session.user}" th:text="'Hello, ' + ${session.user.username}">
+                           th:text="'Hello, ' + ${session.user.username}">
                             Dropdown link
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             <li>
-                                <a class="dropdown-item" th:if="${session.user}"
-                                   th:href="@{'/basket/'+ ${session.user.basket.id}}">Basket</a>
-                            </li>
-                            <li>
-                                <form action="#" th:action="@{/logout}" th:if="${session.user}" method="POST">
+                                <form action="#" th:action="@{/logout}" method="POST">
                                     <input type="submit" value="Logout" class="dropdown-item"/>
                                 </form>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:unless="${session.user}" href="/showMyLoginPage">Log-in</a>
+                    <li class="nav-item" th:unless="${session.user}">
+                        <a class="nav-link" href="/showMyLoginPage">Log-in</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:unless="${session.user}"
+                    <li class="nav-item" th:unless="${session.user}">
+                        <a class="nav-link"
                            href="/register/showRegistrationForm">Registration</a>
                     </li>
                 </ul>

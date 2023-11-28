@@ -1,10 +1,11 @@
 package com.as.spring.asmenu.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -20,8 +21,6 @@ public class Basket {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_is_ready")
-    private boolean orderIsReady;
 
     @Column(name = "total_quantity")
     private Integer quantity;
@@ -35,23 +34,26 @@ public class Basket {
             cascade = CascadeType.ALL)
     private List<BasketDish> basketDishes;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "basket",
             cascade = CascadeType.ALL)
     private User user;
 
-    public Basket(boolean orderIsReady, Integer quantity, Double totalPrice) {
-        this.orderIsReady = orderIsReady;
+    public Basket(Integer quantity, Double totalPrice) {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
 
-    public Basket(boolean orderIsReady, Integer quantity, Double totalPrice, List<BasketDish> basketDishes) {
-        this.orderIsReady = orderIsReady;
+    public Basket( Integer quantity, Double totalPrice, List<BasketDish> basketDishes) {
         this.quantity = quantity;
         this.totalPrice=totalPrice;
         this.basketDishes = basketDishes;
     }
 
+    public void removeBasketDish(BasketDish basketDish) {
+        basketDishes.remove(basketDish);
+        basketDish.setBasket(null);
+    }
 
 
 }

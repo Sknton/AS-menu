@@ -56,16 +56,24 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "basket_id")
     private Basket basket;
 
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Order> orders;
 
 
     public User(String username, String password, String firstName, String lastName, String email, boolean enabled) {
@@ -84,7 +92,8 @@ public class User {
                 String email,
                 List<Role> roles,
                 Basket basket,
-                boolean enabled) {
+                boolean enabled,
+                List<Order> orders) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
@@ -93,6 +102,7 @@ public class User {
         this.email = email;
         this.roles = roles;
         this.basket = basket;
+        this.orders = orders;
     }
 
 }
