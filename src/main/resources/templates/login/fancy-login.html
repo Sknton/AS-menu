@@ -32,6 +32,13 @@
 
                                 <form action="#" th:action="@{/authenticateTheUser}" method="POST">
 
+                                    <div th:if="${param.error}">
+
+                                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                            Invalid username and password.
+                                        </div>
+
+                                    </div>
 
                                     <div th:if="${param.logout}">
 
@@ -39,6 +46,26 @@
                                             You have been logged out.
                                         </div>
 
+                                    </div>
+
+                                    <div th:if="${param.notActivated}">
+
+                                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                            You should activate your account on email.
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${messageActivation}">
+                                        <div th:if="${messageType == 'success'}">
+                                            <div class="alert alert-success col-xs-offset-1 col-xs-10" th:text="${messageActivation}">
+
+                                            </div>
+                                        </div>
+                                        <div th:if="${messageType == 'danger'}">
+                                            <div class="alert alert-danger col-xs-offset-1 col-xs-10" th:text="${messageActivation}">
+
+                                            </div>
+                                        </div>
                                     </div>
 
 

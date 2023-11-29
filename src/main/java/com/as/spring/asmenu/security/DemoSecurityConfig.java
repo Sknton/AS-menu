@@ -1,6 +1,7 @@
 package com.as.spring.asmenu.security;
 
 import com.as.spring.asmenu.service.user.UserService;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -31,6 +32,7 @@ public class DemoSecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
+                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/", "/register/**", "/about-us/**", "/login-picture/**").permitAll()
                                 .requestMatchers("/menu/**", "/basket/**").hasRole("CLIENT")
                                 .requestMatchers("/leaders/**").hasRole("DELIVERY")

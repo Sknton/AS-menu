@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/orders")
@@ -31,6 +28,10 @@ public class OrderController {
     @Value("${google.api.key}")
     private String googleApiKey;
 
+    @GetMapping
+    public String showOrders(){
+        return "orders";
+    }
 
     @PostMapping
     public String makeOrder(@Valid @ModelAttribute("order")Order order,

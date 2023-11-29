@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
@@ -55,6 +56,10 @@ public class User {
     @Email(message = "Not valid email")
     @Column(name = "email")
     private String email;
+
+    @ToString.Exclude
+    @Column(name = "activation_code")
+    private String activationCode;
 
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

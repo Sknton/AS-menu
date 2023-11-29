@@ -64,8 +64,11 @@ public class RegistrationController {
             return "register/registration-form";
         }
 
+
+
         // create user account and store in the databse
         userService.save(theWebUser);
+
 
         logger.info("Successfully created user: " + userName);
 
@@ -73,6 +76,21 @@ public class RegistrationController {
         session.setAttribute("user", theWebUser);
 
         return "register/registration-confirmation";
+    }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code) {
+        boolean isActivated = userService.activateUser(code);
+
+        if (isActivated) {
+            model.addAttribute("messageType", "success");
+            model.addAttribute("messageActivation", "User successfully activated");
+        } else {
+            model.addAttribute("messageType", "danger");
+            model.addAttribute("messageActivation", "Activation code is not found!");
+        }
+
+        return "login/fancy-login";
     }
 }
 

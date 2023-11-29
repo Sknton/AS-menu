@@ -12,7 +12,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Role {
 
     @Id
@@ -23,4 +22,8 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
