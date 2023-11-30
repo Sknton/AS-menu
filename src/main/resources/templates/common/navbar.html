@@ -39,7 +39,7 @@
                            th:classappend="${httpServletRequest.requestURI == '/about-us' ? ' active' : ''}"
                            href="/about-us">About Us</a>
                     </li>
-                    <li class="nav-item" sec:authorize="hasRole('DELIVERY')">
+                    <li class="nav-item" th:if="${session.user}" sec:authorize="hasRole('DELIVERY')" >
                         <a class="nav-link"
                            th:classappend="${httpServletRequest.requestURI == '/orders' ? ' active' : ''}"
                            href="/orders">Orders</a>

@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService{
             String message = String.format(
                     "Hello, %s! \n" +
                             "Welcome to AS-restaurant. Please, visit next link: http://localhost:8080/register/activate/%s to activate an account",
-                    user.getUsername(),
+                    user.getFirstName(),
                     user.getActivationCode()
             );
 

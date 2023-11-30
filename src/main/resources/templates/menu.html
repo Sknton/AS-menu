@@ -18,32 +18,38 @@
         <h2>Menu</h2>
     </div>
 
-    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
-        <div th:each="dish : ${dishes}" class="col mb-4">
-            <div class="card shadow-sm p-3">
-                <img th:src="@{'/menu-pictures/' + ${dish.fileName}}" class="card-img-top img-fluid" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${dish.name}"></h5>
-                    <p class="card-text" th:text="${dish.description}"></p>
-                    <p class="card-text" th:text="${dish.composition}"></p>
-                    <div class="fw-medium" th:text="'Price: $' + ${dish.price}"></div>
-                    <div>
-                        <form action="#" th:action="@{/basket/addToBasket}" method="post" >
-                            <input type="number" name="quantity" th:value="'1'" min="1" max="100" class="form-control mt-2 mb-2">
-                            <input type="hidden" name="dishId" th:value="${dish.id}">
-                            <input type="hidden" name="basketId" th:value="${session.user.basket.id}">
-                            <input type="submit" value="Add to Basket" class="btn btn-dark mt-1"/>
-                        </form>
-                    </div>
+    <hr/>
 
+    <div th:each="type : ${types}">
+        <h2 class="mt-4" th:text="${#strings.capitalize(type)}"></h2>
+        <hr/>
+
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+            <div th:each="dish : ${dishes}" th:if="${dish.type} == ${type}" class="col mb-4">
+                <div class="card shadow-sm p-3">
+                    <img th:src="@{'/img/menu-pictures/' + ${dish.fileName}}" class="card-img-top img-fluid" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${dish.name}"></h5>
+                        <p class="card-text" th:text="${dish.description}"></p>
+                        <p class="card-text" th:text="${dish.composition}"></p>
+                        <div class="fw-medium" th:text="'Price: $' + ${dish.price}"></div>
+                        <div>
+                            <form action="#" th:action="@{/basket/addToBasket}" method="post" >
+                                <input type="number" name="quantity" th:value="'1'" min="1" max="100" class="form-control mt-2 mb-2">
+                                <input type="hidden" name="dishId" th:value="${dish.id}">
+                                <input type="hidden" name="basketId" th:value="${session.user.basket.id}">
+                                <input type="submit" value="Add to Basket" class="btn btn-dark mt-1"/>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
-
-<div th:insert="~{common/footer}"></div>
+    <div th:insert="~{common/footer}"></div>
 
 
 </body>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{common/head}">
+</head>
+<body>
+
+<div th:insert="~{common/navbar}"></div>
+
+<div class="container container-big">
+
+    <div class="m-4 text-center">
+        <h2>Order details</h2>
+    </div>
+
+
+    <hr/>
+
+
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+        <div th:each="orderDish : ${order.orderDishes}" class="col mb-4">
+            <div class="card shadow-sm p-3">
+                <img th:src="@{'/img/menu-pictures/' + ${orderDish.dish.fileName}}" class="card-img-top img-fluid"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${orderDish.dish.name}"></h5>
+                    <p class="card-text" th:text="${orderDish.dish.description}"></p>
+                    <p class="card-text" th:text="${orderDish.dish.composition}"></p>
+                    <div class="fw-medium mb-2 " th:text="'Price: $' + ${orderDish.dish.price}"></div>
+                    <div class="fw-medium" th:text="'Client has ' + ${orderDish.quantity}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

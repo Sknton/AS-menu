@@ -33,9 +33,9 @@ public class DemoSecurityConfig {
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/", "/register/**", "/about-us/**", "/login-picture/**").permitAll()
+                                .requestMatchers("/", "/register/**", "/about-us/**", "/img/login-picture/**").permitAll()
                                 .requestMatchers("/menu/**", "/basket/**").hasRole("CLIENT")
-                                .requestMatchers("/leaders/**").hasRole("DELIVERY")
+                                .requestMatchers("/orders/**").hasRole("DELIVERY")
                                 .requestMatchers("/systems/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )

@@ -2,12 +2,17 @@ package com.as.spring.asmenu.controller;
 
 import com.as.spring.asmenu.model.Basket;
 import com.as.spring.asmenu.model.Order;
+import com.as.spring.asmenu.model.User;
 import com.as.spring.asmenu.service.basket.BasketService;
+import com.as.spring.asmenu.service.order.OrderService;
+import com.as.spring.asmenu.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -19,6 +24,8 @@ public class BasketController {
 
     private final BasketService basketService;
     private final HttpServletRequest request;
+    private final UserService userService;
+    private final OrderService orderService;
 
     @Value("${google.api.key}")
     private String googleApiKey;
@@ -60,18 +67,25 @@ public class BasketController {
         return "redirect:/basket/" + basketId;
     }
 
-    @PostMapping("/orderIsReady")
-    private String orderIsReady(@RequestParam("basketId") Long basketId) {
-        Basket basket = basketService.findById(basketId);
-        basketService.save(basket);
-        return "redirect:/basket/" + basketId;
+
+    @PostMapping("makeOrder")
+    public String makeOrder(@Valid @ModelAttribute("order")Order order,
+                            BindingResult theBindingResult,
+                            @RequestParam("userId") Long userId,
+                            Model model){
+
+        User user = userService.findById(userId);
+        order.setUser(user);
+        // form validation
+        if (theBindingResult.hasErrors()){
+            model.addAttribute("httpServletRequest", request);
+            model.addAttribute("basket", user.getBasket());
+            model.addAttribute("apiKey", googleApiKey);
+            return "basket";
+        }
+        orderService.save(order);
+        return "redirect:/basket/"+ user.getBasket().getId() + "?modal";
     }
 
-
-    @GetMapping("/exam")
-    public String exam(Model model){
-        model.addAttribute("API_KEY", googleApiKey);
-        return "/example/place";
-    }
 }
 

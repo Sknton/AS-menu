@@ -4,6 +4,8 @@ import com.as.spring.asmenu.model.*;
 import com.as.spring.asmenu.repository.BasketDishRepository;
 import com.as.spring.asmenu.repository.BasketRepository;
 import com.as.spring.asmenu.repository.OrderRepository;
+import com.as.spring.asmenu.service.mail.MailSender;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final BasketRepository basketRepository;
     private final BasketDishRepository basketDishRepository;
+    private final MailSender mailSender;
+
 
 
     @Override
@@ -51,4 +55,35 @@ public class OrderServiceImpl implements OrderService {
         basketRepository.save(basket);
     }
 
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Order findById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
+    }
+
+    @Override
+    public void orderIsDelivered(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
+        User user = order.getUser();
+        sendMessage(user);
+        orderRepository.delete(order);
+    }
+
+    private void sendMessage(User user) {
+        if (!user.getEmail().isEmpty()) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Your order was delivered. \n\n Thank you for choosing us and enjoy your meal! ",
+                    user.getFirstName()
+            );
+
+            mailSender.send(user.getEmail(), "Order delivered", message);
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.as.spring.asmenu.controller;
 import com.as.spring.asmenu.model.Basket;
 import com.as.spring.asmenu.model.Order;
 import com.as.spring.asmenu.model.User;
+import com.as.spring.asmenu.service.mail.MailSender;
 import com.as.spring.asmenu.service.order.OrderService;
 import com.as.spring.asmenu.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,33 +24,28 @@ public class OrderController {
 
     private final HttpServletRequest request;
 
-    private final UserService userService;
-
-    @Value("${google.api.key}")
-    private String googleApiKey;
 
     @GetMapping
-    public String showOrders(){
-        return "orders";
+    public String showOrders(Model model){
+        model.addAttribute("httpServletRequest", request);
+        model.addAttribute("orders", orderService.findAll());
+        return "delivery/orders";
     }
 
-    @PostMapping
-    public String makeOrder(@Valid @ModelAttribute("order")Order order,
-                            BindingResult theBindingResult,
-                            @RequestParam("userId") Long userId,
-                            Model model){
 
-        User user = userService.findById(userId);
-        order.setUser(user);
-        // form validation
-        if (theBindingResult.hasErrors()){
-            model.addAttribute("httpServletRequest", request);
-            model.addAttribute("basket", user.getBasket());
-            model.addAttribute("apiKey", googleApiKey);
-            return "basket";
-        }
-        orderService.save(order);
-        return "redirect:/basket/"+ user.getBasket().getId() + "?modal";
+    @GetMapping("/{id}")
+    public String showOrderDetails(@PathVariable("id") Long orderId, Model model){
+        Order order = orderService.findById(orderId);
+        model.addAttribute("httpServletRequest", request);
+        model.addAttribute("order", order);
+
+        return "/delivery/order-details";
+    }
+
+    @GetMapping("/delivered")
+    public String deliveryConfirmation(@RequestParam("orderId") Long orderId){
+        orderService.orderIsDelivered(orderId);
+        return "redirect:/orders";
     }
 
 

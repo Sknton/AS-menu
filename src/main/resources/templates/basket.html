@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{common/head}">
+<head>
+    <div th:replace="~{common/head}"></div>
+    <!--Google places api-->
+    <script th:src="'https://maps.googleapis.com/maps/api/js?key='+${apiKey}+'&libraries=places'"></script>
+    <script th:src="@{/js/order-modal.js}"></script>
+    <script th:src="@{/js/google-places.js}"></script>
 </head>
 <body>
+
+
 
 <div th:insert="~{common/navbar}"></div>
 
@@ -35,7 +42,7 @@
         <p class="fs-5 text-body-secondary">
             Check if your order is correct and enter address for delivery to complete the order
         </p>
-        <form id="orderForm" action="#" th:action="@{/orders}" th:object="${order}" method="post" class="container">
+        <form id="orderForm" action="#" th:action="@{/basket/makeOrder}" th:object="${order}" method="post" class="container">
             <div class="row justify-content-center">
                 <div class="col-4">
                     <input type="hidden" name="userId" th:value="${basket.user.id}">
@@ -75,7 +82,7 @@
     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
         <div th:each="basketDish : ${basket.basketDishes}" class="col mb-4">
             <div class="card shadow-sm p-3">
-                <img th:src="@{'/menu-pictures/' + ${basketDish.dish.fileName}}" class="card-img-top img-fluid"
+                <img th:src="@{'/img/menu-pictures/' + ${basketDish.dish.fileName}}" class="card-img-top img-fluid"
                      alt="...">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${basketDish.dish.name}"></h5>

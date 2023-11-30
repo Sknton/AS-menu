@@ -6,21 +6,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/menu")
 public class MenuController {
     private final DishService dishService;
 
     private final HttpServletRequest request;
 
 
-    @GetMapping("/menu")
+    @GetMapping
     public String getMenu(Model model){
 
         model.addAttribute("httpServletRequest", request);
 
         model.addAttribute("dishes", dishService.findAll());
+
+        model.addAttribute("types", dishService.getUniqueDishTypes());
         return "menu";
     }
 }
