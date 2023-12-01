@@ -2,6 +2,8 @@ package com.as.spring.asmenu.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,21 +24,31 @@ public class Dish {
     @Column(name = "id")
     private Long id;
 
+    @NotNull(message = "is required")
+    @Size(min = 5, max = 100, message = "must be between 5 and 100 characters")
     @Column(name = "name")
     private String name;
 
+    @NotNull(message = "is required")
+    @Size(min = 3, max = 20, message = "must be between 3 and 20 characters")
     @Column(name = "type")
     private String type;
+
 
     @Column(name = "file_name")
     private String fileName;
 
+    @NotNull(message = "is required")
+    @Size(min = 20, max = 255, message = "must be between 20 and 255 characters")
     @Column(name = "description")
     private String description;
 
+    @NotNull(message = "is required")
+    @Size(min = 20, max = 255, message = "must be between 20 and 255 characters")
     @Column(name = "composition")
     private String composition;
 
+    @NotNull(message = "is required")
     @Column(name = "price")
     private Double price;
 

@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,7 @@ public class OrderController {
 
     private final HttpServletRequest request;
 
-
+    @PreAuthorize("hasAuthority('DELIVERY')")
     @GetMapping
     public String showOrders(Model model){
         model.addAttribute("httpServletRequest", request);
@@ -33,6 +34,7 @@ public class OrderController {
     }
 
 
+    @PreAuthorize("hasAuthority('DELIVERY')")
     @GetMapping("/{id}")
     public String showOrderDetails(@PathVariable("id") Long orderId, Model model){
         Order order = orderService.findById(orderId);
@@ -42,6 +44,7 @@ public class OrderController {
         return "/delivery/order-details";
     }
 
+    @PreAuthorize("hasAuthority('DELIVERY')")
     @GetMapping("/delivered")
     public String deliveryConfirmation(@RequestParam("orderId") Long orderId){
         orderService.orderIsDelivered(orderId);

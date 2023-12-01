@@ -44,6 +44,14 @@
                            th:classappend="${httpServletRequest.requestURI == '/orders' ? ' active' : ''}"
                            href="/orders">Orders</a>
                     </li>
+                    <li class="nav-item" th:if="${session.user}" sec:authorize="hasRole('ADMIN')" >
+                        <a class="nav-link"
+                           th:classappend="${httpServletRequest.requestURI == '/menu/systems/addDish' ? ' active' : ''}"
+                           href="/menu/systems/addDish">
+                            Add dish
+                            <i class="fas fa-pizza-slice"></i>
+                        </a>
+                    </li>
                     <li class="nav-item" th:if="${session.user}">
                         <a class="nav-link"
                            th:classappend="${httpServletRequest.requestURI == ('/basket/' + session.user.basket.id) ? ' active' : ''}"

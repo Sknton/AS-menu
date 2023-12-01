@@ -1,16 +1,16 @@
 $(document).ready(function () {
-    var addressInput = document.getElementById('address');
+    let addressInput = document.getElementById('address');
 
 
 
 
-    var addressOptions = {
+    let addressOptions = {
         types: ['address'],
         componentRestrictions: {country: 'ua'}
     };
 
 
-    var addressAutocomplete = new google.maps.places.Autocomplete(addressInput, addressOptions);
+    let addressAutocomplete = new google.maps.places.Autocomplete(addressInput, addressOptions);
 
 
 });
