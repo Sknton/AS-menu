@@ -5,7 +5,6 @@ import com.as.spring.asmenu.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +66,7 @@ public class RegistrationController {
 
 
         // create user account and store in the databse
-        userService.save(theWebUser);
+        userService.saveNew(theWebUser);
 
 
         logger.info("Successfully created user: " + userName);
