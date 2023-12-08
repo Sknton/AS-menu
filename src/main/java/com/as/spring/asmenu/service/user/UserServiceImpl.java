@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         if (!user.getEmail().isEmpty()) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to AS-restaurant. Please, visit next link: http://localhost:8080/register/activate/%s to activate an account",
+                            "Welcome to AS-restaurant. Please, visit next link: http://localhost:8080/register/activate/%s to activate an email",
                     user.getFirstName(),
                     user.getActivationCode()
             );
@@ -129,5 +129,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveWithNewEmail(User user) {
+        user.setActivationCode(UUID.randomUUID().toString());
+
+        // save user in the database
+        userRepository.save(user);
+
+        sendMessage(user);
     }
 }

@@ -57,7 +57,7 @@ public class RegistrationController {
         User existing = userService.findByUserName(userName);
         if (existing != null){
             theModel.addAttribute("user", new User());
-            theModel.addAttribute("registrationError", "User name already exists.");
+            theModel.addAttribute("errorMessage", "User name already exists.");
 
             logger.warning("User name already exists.");
             return "register/registration-form";
@@ -83,7 +83,7 @@ public class RegistrationController {
 
         if (isActivated) {
             model.addAttribute("messageType", "success");
-            model.addAttribute("messageActivation", "User successfully activated");
+            model.addAttribute("messageActivation", "Email successfully confirmed");
         } else {
             model.addAttribute("messageType", "danger");
             model.addAttribute("messageActivation", "Activation code is not found!");

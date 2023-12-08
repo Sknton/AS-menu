@@ -24,7 +24,7 @@
             <td th:text="${user.id}"></td>
             <td th:text="${user.username}"></td>
             <td>
-                <form action="#" th:action="@{/users/{id}(id=${user.id})}" class="form-check"
+                <form action="#" th:action="@{/users/roles/{id}(id=${user.id})}" class="form-check"
                       method="POST">
                     <div th:each="role : ${allRoles}">
                         <input class="form-check-input" name="roles" type="checkbox" th:value="${role.name}"
@@ -36,7 +36,7 @@
                 </form>
             </td>
             <td>
-                <a class="btn btn-danger" th:href="@{/users/delete(userId=${user.id})}">Delete</a>
+                <a class="btn btn-danger" th:href="@{/users/roles/delete(userId=${user.id})}">Delete</a>
             </td>
         </tr>
         </tbody>

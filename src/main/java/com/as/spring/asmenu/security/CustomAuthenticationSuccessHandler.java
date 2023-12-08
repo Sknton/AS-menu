@@ -22,7 +22,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException{
+            throws IOException {
 
 
         String userName = authentication.getName();
@@ -30,15 +30,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         User theUser = userService.findByUserName(userName);
 
-        if (theUser.getActivationCode()!=null){
-            response.sendRedirect("/showMyLoginPage?notActivated");
-        }else {
-            // place in the session
-            HttpSession session = request.getSession();
-            session.setAttribute("user", theUser);
 
-            // forward to home page
-            response.sendRedirect(request.getContextPath() + "/");
-        }
+        // place in the session
+        HttpSession session = request.getSession();
+        session.setAttribute("user", theUser);
+
+        // forward to home page
+        response.sendRedirect(request.getContextPath() + "/");
+
     }
 }

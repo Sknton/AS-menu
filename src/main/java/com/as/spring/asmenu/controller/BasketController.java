@@ -75,7 +75,13 @@ public class BasketController {
                             Model model){
 
         User user = userService.findById(userId);
-        order.setUser(user);
+        if (user.getActivationCode()!=null){
+            model.addAttribute("httpServletRequest", request);
+            model.addAttribute("basket", user.getBasket());
+            model.addAttribute("apiKey", googleApiKey);
+            return "redirect:/basket/"+ user.getBasket().getId()+ "?notActivated";
+        }
+
         // form validation
         if (theBindingResult.hasErrors()){
             model.addAttribute("httpServletRequest", request);
@@ -83,6 +89,8 @@ public class BasketController {
             model.addAttribute("apiKey", googleApiKey);
             return "basket";
         }
+
+        order.setUser(user);
         orderService.save(order);
         return "redirect:/basket/"+ user.getBasket().getId() + "?modal";
     }

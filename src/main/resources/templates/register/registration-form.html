@@ -44,6 +44,10 @@
                                         <span th:text="${param.registrationError}"></span>
                                     </div>
 
+                                    <div th:if="${errorMessage}" class="alert alert-danger">
+                                        <span th:text="${errorMessage}"></span>
+                                    </div>
+
                                     <!-- User name -->
                                     <div class="form-outline mt-4">
                                         <input type="text" th:field="*{username}" placeholder="Username"

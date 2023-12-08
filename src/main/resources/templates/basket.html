@@ -38,6 +38,15 @@
         <h2>Your basket</h2>
     </div>
 
+
+    <div th:if="${param.notActivated}">
+
+        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+            You have to confirm your email to make an order.
+        </div>
+    </div>
+
+
     <div th:if="${!(basket.quantity == 0)}" class="text-center">
         <p class="fs-5 text-body-secondary">
             Check if your order is correct and enter address for delivery to complete the order
