@@ -52,6 +52,11 @@
                                 <input type="submit" value="Add to Basket" class="btn btn-dark mt-1"/>
                             </form>
                         </div>
+                        <a th:href="@{/menu/systems/dishes/{dishId}(dishId=${dish.id})}"
+                           sec:authorize="hasRole('ADMIN')"
+                           class="btn btn-success btn-sm mt-1">
+                            Edit dish
+                        </a>
                         <a th:href="@{/menu/systems/delete(dishId=${dish.id})}"
                            sec:authorize="hasRole('ADMIN')"
                            class="btn btn-danger btn-sm mt-1"

@@ -1,6 +1,7 @@
 package com.as.spring.asmenu.controller;
 
 import com.as.spring.asmenu.model.Dish;
+import com.as.spring.asmenu.model.User;
 import com.as.spring.asmenu.service.dish.DishService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -47,8 +48,12 @@ public class MenuController {
     public String addDish(@Valid @ModelAttribute("dish") Dish dish, BindingResult bindingResult,
                           Model model,
                           @RequestParam("file") MultipartFile imageFile){
-        if (bindingResult.hasErrors() || imageFile.isEmpty()){
-            model.addAttribute("httpServletRequest", request);
+        model.addAttribute("httpServletRequest", request);
+        if (bindingResult.hasErrors()){
+            return "/admin/add-dish";
+        }
+
+        if (imageFile.isEmpty() && dish.getFileName() == null){
             return "/admin/add-dish";
         }
 
@@ -60,6 +65,18 @@ public class MenuController {
     public String delete(@RequestParam("dishId") Long id){
         dishService.deleteById(id);
         return "redirect:/menu";
+    }
+
+
+    @GetMapping("/systems/dishes/{dishId}")
+    public String editDish(@PathVariable("dishId") Long  dishId, Model model){
+        Dish dish = dishService.findById(dishId);
+
+        model.addAttribute("dish", dish);
+
+        model.addAttribute("httpServletRequest", request);
+
+        return "admin/add-dish";
     }
 
 }

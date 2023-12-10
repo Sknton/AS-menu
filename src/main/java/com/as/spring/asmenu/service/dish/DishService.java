@@ -14,4 +14,6 @@ public interface DishService {
     void save(Dish dish, MultipartFile file);
 
     void deleteById(Long id);
+
+    Dish findById(Long id);
 }

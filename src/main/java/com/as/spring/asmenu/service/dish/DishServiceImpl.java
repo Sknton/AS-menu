@@ -54,8 +54,10 @@ public class DishServiceImpl implements DishService {
     public void save(Dish dish, MultipartFile file) {
         // Save the image file and set the filename in the dish object
         try {
-            String fileName = saveImageFile(file);
-            dish.setFileName(fileName);
+            if (!file.isEmpty()){
+                String fileName = saveImageFile(file);
+                dish.setFileName(fileName);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the error appropriately in your application
@@ -70,7 +72,7 @@ public class DishServiceImpl implements DishService {
             uploadDir.mkdir();
         }
         String uuidFile = UUID.randomUUID().toString();
-        String resultFilename = uuidFile + "." + imageFile.getOriginalFilename();
+        String resultFilename = uuidFile + imageFile.getOriginalFilename();
         imageFile.transferTo(new File(uploadPath + "/" + resultFilename));
         return resultFilename;
     }
@@ -106,5 +108,11 @@ public class DishServiceImpl implements DishService {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public Dish findById(Long id) {
+        return dishRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Dish not found with id: " + id));
     }
 }
