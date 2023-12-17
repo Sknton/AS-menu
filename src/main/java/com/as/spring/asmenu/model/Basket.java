@@ -44,16 +44,8 @@ public class Basket {
         this.totalPrice = totalPrice;
     }
 
-    public Basket( Integer quantity, Double totalPrice, List<BasketDish> basketDishes) {
-        this.quantity = quantity;
-        this.totalPrice=totalPrice;
-        this.basketDishes = basketDishes;
-    }
 
-    public void removeBasketDish(BasketDish basketDish) {
-        basketDishes.remove(basketDish);
-        basketDish.setBasket(null);
-    }
+
 
 
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -51,6 +52,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional
     public void save(Dish dish, MultipartFile file) {
         // Save the image file and set the filename in the dish object
         try {
@@ -78,6 +80,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Dish not found with id: " + id));

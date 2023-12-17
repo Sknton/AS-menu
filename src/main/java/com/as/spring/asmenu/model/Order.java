@@ -43,14 +43,5 @@ public class Order {
         this.address = address;
     }
 
-    public Order(String address, User user) {
-        this.address = address;
-        this.user = user;
-    }
 
-    public Order(String address, User user, List<OrderDish> orderDishes) {
-        this.address = address;
-        this.user = user;
-        this.orderDishes=orderDishes;
-    }
 }

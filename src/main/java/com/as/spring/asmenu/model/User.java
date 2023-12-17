@@ -4,7 +4,6 @@ package com.as.spring.asmenu.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,6 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
@@ -82,39 +80,9 @@ public class User {
     private List<Order> orders;
 
 
-    public User(String username, String password, String firstName, String lastName, String email, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    public User(String username,
-                String password,
-                String firstName,
-                String lastName,
-                String email,
-                List<Role> roles,
-                Basket basket,
-                boolean enabled,
-                List<Order> orders) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.roles = roles;
-        this.basket = basket;
-        this.orders = orders;
-    }
-
-
-    public void add(Role role){
+    public void add(Role role) {
         if (roles == null) {
-            roles=new ArrayList<>();
+            roles = new ArrayList<>();
         }
         roles.add(role);
     }

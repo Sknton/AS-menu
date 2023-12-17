@@ -72,22 +72,6 @@ public class Dish {
         this.price = price;
     }
 
-    public Dish(String name,
-                String type,
-                String fileName,
-                String description,
-                String composition,
-                Double price,
-                List<BasketDish> basketDishes,
-                List<OrderDish> orderDishes) {
-        this.name = name;
-        this.type = type;
-        this.fileName = fileName;
-        this.description = description;
-        this.composition = composition;
-        this.price=price;
-        this.basketDishes = basketDishes;
-        this.orderDishes = orderDishes;
-    }
+
 
 }

@@ -27,7 +27,7 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('DELIVERY')")
     @GetMapping
-    public String showOrders(Model model){
+    public String showOrdersPage(Model model){
         model.addAttribute("httpServletRequest", request);
         model.addAttribute("orders", orderService.findAll());
         return "delivery/orders";
@@ -36,7 +36,7 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('DELIVERY')")
     @GetMapping("/{id}")
-    public String showOrderDetails(@PathVariable("id") Long orderId, Model model){
+    public String showOrderDetailsPage(@PathVariable("id") Long orderId, Model model){
         Order order = orderService.findById(orderId);
         model.addAttribute("httpServletRequest", request);
         model.addAttribute("order", order);

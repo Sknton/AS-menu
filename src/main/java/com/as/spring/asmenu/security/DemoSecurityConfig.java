@@ -34,14 +34,14 @@ public class DemoSecurityConfig {
                         configurer
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/", "/register/**", "/about-us/**", "/img/login-picture/**").permitAll()
-                                .requestMatchers("/menu/systems/**", "/users/roles/**").hasRole("ADMIN")
+                                .requestMatchers("/menu/system/**", "/users/roles/**").hasRole("ADMIN")
                                 .requestMatchers("/orders/**").hasRole("DELIVERY")
                                 .requestMatchers("/menu/**", "/basket/**", "/users/**").hasRole("CLIENT")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form
-                                .loginPage("/showMyLoginPage")
+                                .loginPage("/log-in")
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .successHandler(customAuthenticationSuccessHandler)
                                 .permitAll()
@@ -49,7 +49,7 @@ public class DemoSecurityConfig {
                 .logout(logout ->
                         logout
                                 .logoutUrl("/logout")
-                                .logoutSuccessUrl("/showMyLoginPage?logout")
+                                .logoutSuccessUrl("/log-in?logout")
                                 .permitAll()
                 )
                 .exceptionHandling(configurer ->

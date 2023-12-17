@@ -118,6 +118,6 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(@RequestParam("userId") Long id) {
         userService.deleteById(id);
-        return "/login/fancy-login";
+        return "log-in";
     }
 }

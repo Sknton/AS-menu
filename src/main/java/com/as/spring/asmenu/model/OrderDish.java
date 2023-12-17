@@ -31,9 +31,6 @@ public class OrderDish {
     @JoinColumn(name = "dish_id")
     private Dish dish;
 
-    public OrderDish(Integer quantity) {
-        this.quantity = quantity;
-    }
 
     public OrderDish(Integer quantity, Order order, Dish dish) {
         this.quantity = quantity;

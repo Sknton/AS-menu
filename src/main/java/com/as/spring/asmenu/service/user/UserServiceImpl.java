@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void saveNew(User user) {
 
         // assign user details to the user object
@@ -69,6 +71,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public boolean activateUser(String code) {
         User user = userRepository.findByActivationCode(code);
 
@@ -132,6 +135,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void saveWithNewEmail(User user) {
         user.setActivationCode(UUID.randomUUID().toString());
 

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,29 +28,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void save(Order order) {
-        User user = order.getUser();
-        order.setOrderDishes(createOrderDishes(order, user.getBasket().getBasketDishes()));
+        Basket basket = order.getUser().getBasket();
+        order.setOrderDishes(createOrderDishes(order, basket.getBasketDishes()));
         orderRepository.save(order);
 
-        clearBasket(order.getUser().getBasket());
+        clearBasket(basket);
     }
 
 
     private List<OrderDish> createOrderDishes(Order order, List<BasketDish> basketDishes) {
-        List<OrderDish> orderDishes = new ArrayList<>();
-        for (BasketDish basketDish : basketDishes) {
-            OrderDish orderDish = new OrderDish(basketDish.getQuantity(), order, basketDish.getDish());
-            orderDishes.add(orderDish);
-        }
-        return orderDishes;
+        return basketDishes.stream()
+                .map(basketDish -> new OrderDish(basketDish.getQuantity(), order, basketDish.getDish()))
+                .collect(Collectors.toList());
     }
 
     private void clearBasket(Basket basket) {
-        List<BasketDish> basketDishes = new ArrayList<>(basket.getBasketDishes());
-        for (BasketDish basketDish : basketDishes) {
-            basket.removeBasketDish(basketDish);
-            basketDishRepository.delete(basketDish);
-        }
+        basketDishRepository.deleteAll(basket.getBasketDishes());
+        basket.setBasketDishes(new ArrayList<>());
         basket.setQuantity(0);
         basket.setTotalPrice(0D);
         basketRepository.save(basket);
@@ -67,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void orderIsDelivered(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));

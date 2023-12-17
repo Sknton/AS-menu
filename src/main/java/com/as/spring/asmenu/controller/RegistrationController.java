@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 @RequiredArgsConstructor
 public class RegistrationController {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
 
     private final UserService userService;
 
@@ -31,48 +30,39 @@ public class RegistrationController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @GetMapping("/showRegistrationForm")
-    public String showMyLoginPage(Model theModel) {
+    @GetMapping
+    public String showRegistrationPage(Model theModel) {
 
         theModel.addAttribute("user", new User());
 
         return "register/registration-form";
     }
 
-    @PostMapping("/processRegistrationForm")
+    @PostMapping
     public String processRegistrationForm(
-            @Valid @ModelAttribute("user") User theWebUser,
+            @Valid @ModelAttribute("user") User user,
             BindingResult theBindingResult,
-            HttpSession session, Model theModel) {
+            HttpSession session,
+            Model theModel) {
 
-        String userName = theWebUser.getUsername();
-        logger.info("Processing registration form for: " + userName);
-
-        // form validation
         if (theBindingResult.hasErrors()){
             return "register/registration-form";
         }
 
         // check the database if user already exists
+        String userName = user.getUsername();
         User existing = userService.findByUserName(userName);
         if (existing != null){
             theModel.addAttribute("user", new User());
             theModel.addAttribute("errorMessage", "User name already exists.");
-
-            logger.warning("User name already exists.");
             return "register/registration-form";
         }
 
-
-
         // create user account and store in the databse
-        userService.saveNew(theWebUser);
-
-
-        logger.info("Successfully created user: " + userName);
+        userService.saveNew(user);
 
         // place user in the web http session for later use
-        session.setAttribute("user", theWebUser);
+        session.setAttribute("user", user);
 
         return "register/registration-confirmation";
     }
@@ -89,7 +79,7 @@ public class RegistrationController {
             model.addAttribute("messageActivation", "Activation code is not found!");
         }
 
-        return "login/fancy-login";
+        return "/login/log-in";
     }
 }
 

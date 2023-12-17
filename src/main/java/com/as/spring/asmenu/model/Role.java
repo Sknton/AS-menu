@@ -12,18 +12,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @ToString.Exclude
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @Override
-    public String toString() {
-        return name;
-    }
+
 }

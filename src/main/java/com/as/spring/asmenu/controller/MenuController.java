@@ -1,7 +1,6 @@
 package com.as.spring.asmenu.controller;
 
 import com.as.spring.asmenu.model.Dish;
-import com.as.spring.asmenu.model.User;
 import com.as.spring.asmenu.service.dish.DishService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -36,47 +35,45 @@ public class MenuController {
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/systems/addDish")
+    @GetMapping("/system/add-dish")
     public String showAddDishPage(Model model){
         model.addAttribute("httpServletRequest", request);
         model.addAttribute("dish", new Dish());
-        return "admin/add-dish";
+        return "common/add-dish";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/systems/addDish")
-    public String addDish(@Valid @ModelAttribute("dish") Dish dish, BindingResult bindingResult,
+    @PostMapping("/system/dish-form")
+    public String processDishForm(@Valid @ModelAttribute("dish") Dish dish, BindingResult bindingResult,
                           Model model,
                           @RequestParam("file") MultipartFile imageFile){
-        model.addAttribute("httpServletRequest", request);
-        if (bindingResult.hasErrors()){
-            return "/admin/add-dish";
-        }
-
-        if (imageFile.isEmpty() && dish.getFileName() == null){
-            return "/admin/add-dish";
+        if (bindingResult.hasErrors() || (imageFile.isEmpty() && dish.getFileName().isEmpty())){
+            model.addAttribute("httpServletRequest", request);
+            return "/common/add-dish";
         }
 
         dishService.save(dish, imageFile);
         return "redirect:/menu";
     }
 
-    @GetMapping("/systems/delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/system/delete")
     public String delete(@RequestParam("dishId") Long id){
         dishService.deleteById(id);
         return "redirect:/menu";
     }
 
 
-    @GetMapping("/systems/dishes/{dishId}")
-    public String editDish(@PathVariable("dishId") Long  dishId, Model model){
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/system/dishes/{dishId}")
+    public String showEditDishPage(@PathVariable("dishId") Long  dishId, Model model){
         Dish dish = dishService.findById(dishId);
 
         model.addAttribute("dish", dish);
 
         model.addAttribute("httpServletRequest", request);
 
-        return "admin/add-dish";
+        return "common/add-dish";
     }
 
 }

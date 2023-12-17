@@ -31,7 +31,7 @@ public class BasketController {
     private String googleApiKey;
 
 
-    @PostMapping("/addToBasket")
+    @PostMapping("/add-to-basket")
     public String addToBasket(@RequestParam("basketId") Long basketId,
                               @RequestParam("dishId") Long dishId,
                               @RequestParam("quantity") Integer quantity) {
@@ -42,7 +42,7 @@ public class BasketController {
     }
 
     @GetMapping("/{basketId}")
-    public String getBasketById(@PathVariable Long basketId, Model model, Principal principal) {
+    public String showBasketPage(@PathVariable Long basketId, Model model, Principal principal) {
         Basket basket = basketService.findById(basketId);
 
 
@@ -68,7 +68,7 @@ public class BasketController {
     }
 
 
-    @PostMapping("makeOrder")
+    @PostMapping("/make-order")
     public String makeOrder(@Valid @ModelAttribute("order")Order order,
                             BindingResult theBindingResult,
                             @RequestParam("userId") Long userId,
@@ -76,9 +76,6 @@ public class BasketController {
 
         User user = userService.findById(userId);
         if (user.getActivationCode()!=null){
-            model.addAttribute("httpServletRequest", request);
-            model.addAttribute("basket", user.getBasket());
-            model.addAttribute("apiKey", googleApiKey);
             return "redirect:/basket/"+ user.getBasket().getId()+ "?notActivated";
         }
 
