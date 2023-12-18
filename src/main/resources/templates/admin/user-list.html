@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody id="myTable">
-        <tr th:each="user : ${users}">
+        <tr th:each="user : ${users}" th:unless="${session.user.id == user.id}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.username}"></td>
             <td>

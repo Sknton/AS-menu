@@ -56,7 +56,7 @@ public class DishServiceImpl implements DishService {
     public void save(Dish dish, MultipartFile file) {
         // Save the image file and set the filename in the dish object
         try {
-            if (!file.isEmpty()){
+            if (!file.isEmpty()) {
                 String fileName = saveImageFile(file);
                 dish.setFileName(fileName);
             }
@@ -86,7 +86,7 @@ public class DishServiceImpl implements DishService {
                 .orElseThrow(() -> new EntityNotFoundException("Dish not found with id: " + id));
 
         deleteDishesInBasket(dish);
-        deleteDishImage(uploadPath+"/"+dish.getFileName());
+        deleteDishImage(uploadPath + "/" + dish.getFileName());
         dishRepository.deleteById(id);
     }
 
@@ -104,13 +104,9 @@ public class DishServiceImpl implements DishService {
         basketRepository.saveAll(baskets);
     }
 
-    private void deleteDishImage(String path){
-        try {
-            File file = new File(path);
-            file.delete();
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
+    private void deleteDishImage(String path) {
+        File file = new File(path);
+        file.delete();
     }
 
     @Override
