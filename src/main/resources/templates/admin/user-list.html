@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{common/head}">
+<head>
+    <div th:replace="~{common/head}"></div>
+    <script th:src="@{/js/searching-tab.js}"></script>
+    <title>User-list</title>
 </head>
 <body>
 
@@ -42,16 +45,7 @@
         </tbody>
     </table>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#searchInput").on("keyup", function () {
-            let value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
-</script>
+
 <div th:replace="~{common/footer}"></div>
 
 </body>
