@@ -1,0 +1,55 @@
+<div xmlns:th="http://www.thymeleaf.org">
+  <!-- User name -->
+  <div class="form-outline mt-4">
+    <input type="text" th:field="*{username}" placeholder="Username"
+           class="form-control form-control-lg"/>
+  </div>
+
+  <div th:if="${#fields.hasErrors('username')}" class="text-danger">
+    <ul class="mb-0">
+      <li th:each="err : ${#fields.errors('username')}"
+          th:text="'User name ' + ${err}"/>
+    </ul>
+  </div>
+
+
+  <!-- First Name -->
+  <div class="form-outline mt-4">
+    <input type="text" th:field="*{firstName}" placeholder="First name"
+           class="form-control form-control-lg"/>
+  </div>
+
+  <div th:if="${#fields.hasErrors('firstName')}" class="text-danger">
+    <ul class="mb-0">
+      <li th:each="err : ${#fields.errors('firstName')}"
+          th:text="'First name ' + ${err}"/>
+    </ul>
+  </div>
+
+
+  <!-- Last Name -->
+  <div class="form-outline mt-4">
+    <input type="text" th:field="*{lastName}" placeholder="Last name"
+           class="form-control form-control-lg"/>
+  </div>
+
+  <div th:if="${#fields.hasErrors('lastName')}" class="text-danger">
+    <ul class="mb-0">
+      <li th:each="err : ${#fields.errors('lastName')}"
+          th:text="'Last name ' + ${err}"/>
+    </ul>
+  </div>
+
+  <!-- Email -->
+  <div class="form-outline mt-4">
+    <input type="text" th:field="*{email}" placeholder="email"
+           class="form-control form-control-lg"/>
+  </div>
+
+  <div th:if="${#fields.hasErrors('email')}" class="text-danger">
+    <ul class="mb-0">
+      <li th:each="err : ${#fields.errors('email')}"
+          th:text="'Email ' + ${err}"/>
+    </ul>
+  </div>
+</div>

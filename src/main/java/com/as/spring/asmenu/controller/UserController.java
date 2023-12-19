@@ -118,6 +118,6 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(@RequestParam("userId") Long id) {
         userService.deleteById(id);
-        return "log-in";
+        return "/login/log-in";
     }
 }
