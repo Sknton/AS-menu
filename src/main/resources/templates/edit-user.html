@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
 <head th:insert="~{common/head}">
 
 </head>
-<body>
+<body class="d-flex flex-column h-100">
+
 
 <div th:insert="~{common/navbar}"></div>
 
@@ -41,7 +42,7 @@
     <a class="btn btn-danger" th:href="@{/users/delete(userId=${user.id})}">Delete an account</a>
 </div>
 
-
+<div th:replace="~{common/footer}"></div>
 
 </body>
 </html>

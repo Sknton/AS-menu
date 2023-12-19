@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" class="h-100">
 <head th:insert="~{common/head}">
 
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
 
 <div th:insert="~{common/navbar}"></div>
@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div th:insert="~{common/footer}"></div>
+<div th:replace="~{common/footer}"></div>
 
 </body>
 </html>
